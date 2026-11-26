@@ -248,19 +248,7 @@ The results identified twelve active ports.
 
 ---
 
-![scan_short_1.png](/screenshots/scan_short_1.png)
-
----
-
-![scan_short_2.png](/screenshots/scan_short_2.png)
-
----
-
-![scan_short_3.png](/screenshots/scan_short_3.png)
-
----
-
-![scan_short_4.png](/screenshots/scan_short_4.png)
+<img width="1917" height="1077" alt="nmap" src="https://github.com/user-attachments/assets/4c787261-6265-48c4-ae93-c92876e63729" />
 
 ---
 
@@ -278,11 +266,11 @@ The results identified twelve active ports.
 
 ---
 
-![scan_full_1.png](/screenshots/scan_full_1.png)
+<img width="1917" height="1077" alt="nmap full scan" src="https://github.com/user-attachments/assets/fafe0b53-11e6-4205-ab40-bf5a6634a3ec" />
 
 ---
 
-![scan_full_2.png](/screenshots/scan_full_2.png)
+<img width="1917" height="1077" alt="nmap full scan 2" src="https://github.com/user-attachments/assets/6eda1a7e-d77c-4085-8709-74add0167274" />
 
 ---
 
