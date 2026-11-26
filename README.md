@@ -450,6 +450,9 @@ I used Networkwalks Password Cracker over the 3 hash values.
 
 ---
 
+<img width="1917" height="1072" alt="access denied" src="https://github.com/user-attachments/assets/902f0f15-2df3-456a-8631-1553603e6d39" />
+
+---
 
 The password cracking was not successful for the **`patient_report_3.hash.txt`** using the native wordlist of 100 words integrated to the Networkwalks tool.
 
@@ -470,6 +473,9 @@ I launched each of the encrypted reports PDF files. I entered the cracked passwo
 ![pdf1_gap.png](/screenshots/pdf1_gap.png)
 
 ---
+
+
+
 
 ![pdf2_gap.png](/screenshots/pdf2_gap.png)
 
