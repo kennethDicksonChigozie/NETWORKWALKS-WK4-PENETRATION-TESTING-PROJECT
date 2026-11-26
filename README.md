@@ -384,15 +384,9 @@ Having a valid username could make the attack easier.
 
 As many common passwords were failing, I opted for SQL injection.
 
-Here again the behaviour of the authentication mechanisms was indiscreet. The error messages indicated the position of the wrong syntax in the SQL requests.
-
 ---
 
-![sql_error_1.png](/screenshots/sql_error_1.png)
-
----
-
-![sql_error_2.png](/screenshots/sql_error_2.png)
+<img width="1917" height="1077" alt="login details" src="https://github.com/user-attachments/assets/f77c2b97-a1b4-411e-958f-772f595c9cd0" />
 
 ---
 
@@ -400,11 +394,7 @@ I gained the access by commenting the password requirement with the SQL injectio
 
 ---
 
-![sql_correct.png](/screenshots/sql_correct.png)
-
----
-
-![portal_accessed.png](/screenshots/portal_accessed.png)
+<img width="1917" height="1078" alt="Screenshot 2026-11-26 021658" src="https://github.com/user-attachments/assets/5a18cabc-0b91-41f9-ad75-f356a20db998" />
 
 ---
 
@@ -412,7 +402,7 @@ I downloaded the 3 reports by clicking on the `download` buttons.
 
 ---
 
-![reports_download.png](/screenshots/reports_download.png)
+<img width="1917" height="1077" alt="downloaded file" src="https://github.com/user-attachments/assets/dc91dc5d-cdd1-462f-a99c-e9f0ad264ce3" />
 
 ---
 
@@ -434,15 +424,15 @@ The hash values of each file were saved and are available in the **`/output_file
 
 ---
 
-![pdf1_hash.png](/screenshots/pdf1_hash.png)
+<img width="1917" height="1077" alt="hash pdf1" src="https://github.com/user-attachments/assets/6dd2164d-aff7-48ec-91ba-9c22587a3256" />
 
 ---
 
-![pdf2_hash.png](/screenshots/pdf2_hash.png)
+<img width="1917" height="1077" alt="hash pdf 2" src="https://github.com/user-attachments/assets/49a46758-58c6-4818-9433-82a23edcc1a4" />
 
 ---
 
-![pdf3_hash.png](/screenshots/pdf3_hash.png)
+<img width="1917" height="1077" alt="hash pdf 3" src="https://github.com/user-attachments/assets/6d698f22-a6eb-4915-9286-638b79747750" />
 
 ---
 
@@ -452,17 +442,14 @@ I used Networkwalks Password Cracker over the 3 hash values.
 
 ---
 
-![pdf1_crack.png](/screenshots/pdf1_crack.png)
+<img width="1917" height="1077" alt="password 12345" src="https://github.com/user-attachments/assets/cbefd176-ab78-4e5e-8099-5fbf10e6504a" />
 
 ---
 
-![pdf2_crack.png](/screenshots/pdf2_crack.png)
+<img width="1917" height="1077" alt="password" src="https://github.com/user-attachments/assets/e38b85bb-0a6a-4816-ac2b-ffb2a7f5232c" />
 
 ---
 
-![pdf3_crack_1.png](/screenshots/pdf3_crack_1.png)
-
----
 
 The password cracking was not successful for the **`patient_report_3.hash.txt`** using the native wordlist of 100 words integrated to the Networkwalks tool.
 
