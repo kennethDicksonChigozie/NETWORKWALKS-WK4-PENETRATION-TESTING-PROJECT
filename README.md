@@ -244,7 +244,7 @@ I scanned with the command :
 nmap -sV -sC 199.188.201.16
 ````
 
-The results identified twelve active ports.
+The results identified two active ports.
 
 ---
 
@@ -277,3 +277,316 @@ The results identified twelve active ports.
 The output of this second scan is saved in a txt file available at **`/outputs_files/scan_full.txt`**.
 
 ---
+
+### Enumeration
+
+I used `curl` to perform enumeration on the target with the following commands:
+
+````bash
+curl -s https://medirozahospital.com | grep -Eo 'href="[^"]+"' | sort -u
+````
+
+````bash
+curl https://medirozahospital.com/sitemap.xml 
+````
+
+````bash
+curl https://medirozahospital.com/robots.txt
+````
+
+---
+
+<img width="1917" height="1077" alt="curl enumeration" src="https://github.com/user-attachments/assets/ffd976b9-8726-481d-8088-41f6de57f230" />
+
+---
+
+<img width="1917" height="1077" alt="curl enumeration 2" src="https://github.com/user-attachments/assets/b1b1a826-e046-448f-bb33-b58bbf099e08" />
+
+---
+
+<img width="1917" height="1077" alt="curl enumeration 3" src="https://github.com/user-attachments/assets/a8df4f0d-162a-4210-8a8c-a00fdda949c0" />
+
+---
+
+<img width="1891" height="1077" alt="robots" src="https://github.com/user-attachments/assets/49dc0500-31d7-4731-9338-3ec6fc21c0eb" />
+
+---
+
+<img width="1917" height="1076" alt="robots 2" src="https://github.com/user-attachments/assets/c7ef06e3-6035-412d-b7aa-11fbb16b73f8" />
+
+
+
+The outputs of the commands used for enumeration were saved in a txt file that is available at **`/output_files/enumeration.txt`**.
+
+I remarked information disclosure via **`robots.txt`**: paths that were not visible through normal navigation on the website had showed up. 
+
+They were 3 key paths:
+
+````text
+https://medirozahospital.com/patient/
+https://medirozahospital.com/staff/
+https://medirozahospital.com/old/
+````
+
+Those are exposed entry points.
+
+I entered them one by one in the browser.
+
+---
+
+#### /patient/
+
+<img width="1917" height="1071" alt="index of patient" src="https://github.com/user-attachments/assets/cb75fd92-5136-4385-8827-c9f36fe88711" />
+
+---
+
+#### /staff/
+
+<img width="1917" height="1077" alt="index of staff" src="https://github.com/user-attachments/assets/e1812fdf-c5e1-43ab-8037-c3d8983c7458" />
+
+---
+
+#### /old/
+
+<img width="1917" height="1077" alt="index of old" src="https://github.com/user-attachments/assets/6c14df03-4309-4a35-a116-06613e44d971" />
+
+---
+
+The presence of a folder **/patient/reports** indicated that there would patient reports files in the **Patient Portal**.
+
+I tried to gain the access with common usernames and passwords. I analyzed the behaviour of the authentication mechanisms.
+
+---
+
+#### wrong username error message
+
+<img width="1917" height="1077" alt="incorrect password" src="https://github.com/user-attachments/assets/343ed3c5-7a8d-44cb-8ee8-3ea6450029d3" />
+
+---
+
+A trial with the default username `admin` got **Incorrect password**.
+
+---
+
+<img width="1917" height="1077" alt="admin username" src="https://github.com/user-attachments/assets/2df8a40b-f266-4233-9718-e4101eb20762" />
+
+---
+
+#### correct username error message
+
+<img width="1917" height="1077" alt="incorrect password" src="https://github.com/user-attachments/assets/2191b942-b5a2-48dd-93d3-13dd2d0ae302" />
+
+---
+
+That behaviour lets guess which one of the credentials is wrong and helps a correct username even if the entered password is wrong.
+
+Having a valid username could make the attack easier.
+
+As many common passwords were failing, I opted for SQL injection.
+
+Here again the behaviour of the authentication mechanisms was indiscreet. The error messages indicated the position of the wrong syntax in the SQL requests.
+
+---
+
+![sql_error_1.png](/screenshots/sql_error_1.png)
+
+---
+
+![sql_error_2.png](/screenshots/sql_error_2.png)
+
+---
+
+I gained the access by commenting the password requirement with the SQL injection.
+
+---
+
+![sql_correct.png](/screenshots/sql_correct.png)
+
+---
+
+![portal_accessed.png](/screenshots/portal_accessed.png)
+
+---
+
+I downloaded the 3 reports by clicking on the `download` buttons.
+
+---
+
+![reports_download.png](/screenshots/reports_download.png)
+
+---
+
+The downloaded encrypted reports PDF files are : **`patient_report_1.pdf`**, **`patient_report_2.pdf`** and **`patient_report_3.pdf`**. They are available in the folder **`/download/`**.
+
+---
+
+## 3.2 Milestone 2 - Cracking the encrypted files
+
+---
+
+### Calculating hash values
+
+I analyzed the  encryption of the locked reports PDF files.
+
+I used Networkwalks Hash Calculator and uploaded the files turn by turn. A crackable hash had been extracted in pdf2john or hashcat compatible format.
+
+The hash values of each file were saved and are available in the **`/output_files/`** : **`patient_report_1.hash.txt`**, **`patient_report_2.hash.txt`** and **`patient_report_3.hash.txt`**.
+
+---
+
+![pdf1_hash.png](/screenshots/pdf1_hash.png)
+
+---
+
+![pdf2_hash.png](/screenshots/pdf2_hash.png)
+
+---
+
+![pdf3_hash.png](/screenshots/pdf3_hash.png)
+
+---
+
+### Cracking the passwords
+
+I used Networkwalks Password Cracker over the 3 hash values.
+
+---
+
+![pdf1_crack.png](/screenshots/pdf1_crack.png)
+
+---
+
+![pdf2_crack.png](/screenshots/pdf2_crack.png)
+
+---
+
+![pdf3_crack_1.png](/screenshots/pdf3_crack_1.png)
+
+---
+
+The password cracking was not successful for the **`patient_report_3.hash.txt`** using the native wordlist of 100 words integrated to the Networkwalks tool.
+
+I uploaded the Kali Linux wordlist of 14,344,379 words into the Networkwalks tool. I run the cracking again and that was successful.
+
+---
+
+![pdf3_crack.png](/screenshots/pdf3_crack.png)
+
+---
+
+### Contents recovering
+
+I launched each of the encrypted reports PDF files. I entered the cracked passwords and validated. 
+
+---
+
+![pdf1_gap.png](/screenshots/pdf1_gap.png)
+
+---
+
+![pdf2_gap.png](/screenshots/pdf2_gap.png)
+
+---
+
+![pdf3_gap.png](/screenshots/pdf3_gap.png)
+
+---
+
+![pdf1_filled.png](/screenshots/pdf1_filled.png)
+
+---
+
+![pdf2_filled.png](/screenshots/pdf2_filled.png)
+
+---
+
+![pdf3_filled.png](/screenshots/pdf3_filled.png)
+
+---
+
+![pdf1_open.png](/screenshots/pdf1_open.png)
+
+---
+
+![pdf2_open.png](/screenshots/pdf2_open.png)
+
+---
+
+![pdf3_open.png](/screenshots/pdf3_open.png)
+
+---
+
+All the PDF files opened and their contents were recovered successfully.
+
+---
+
+## 3.3 Milestone 3 - Critical data exposure on the client server
+
+---
+
+I conducted a thorough analysis of everything retrieved so far. 
+
+I tried to exploit /staff/ and /old/ found paths via enumeration.
+
+### Exploiting /staff/ enumerated path
+
+I entered common credentials in the fields of /staff/login.php. I also entered SQL injection requests.
+
+No valuable result was found via the /staff/ revealed path.
+
+---
+
+![staff.png](/screenshots/staff.png)
+
+---
+
+![staff_login.png](/screenshots/staff_login.png)
+
+---
+
+### Exploiting /old/ enumerated path
+
+I clicked and opened the file **`mediroza_db_backup_2019.sql`**.
+
+![old.png](/screenshots/old.png)
+
+---
+
+The opened page showed the company's database backup data.
+
+---
+
+![backup_1.png](/screenshots/backup_1.png)
+
+---
+
+![backup_2.png](/screenshots/backup_2.png)
+
+---
+
+![backup_3.png](/screenshots/backup_3.png)
+
+---
+
+The exposed details were critical and sensitive data. They were business financial data and staff sensitive personal data. 
+
+Specifically, the database details (name: **`mediroza_hr`**), confidential staff and shareholder records were clearly exposed.
+
+I extracted  the salaries of all hospital employees and the shareholder details of the hospital.
+
+I made a readable summary of the confidential data uncovered.
+
+---
+
+### Database and technical details
+
+|Element|Details|
+|----|----|
+|Backup date: |2019-08-27 02:14:03|
+|Backup name:|mediroza_db_backup_2019.sql|
+|Backup type:|internal database backup|
+|Contents:| confidential staff and shareholder records |
+|Host: | localhost |
+|Database name: | mediroza_hr|
+|Company:| Mediroza General Hospital |
+|Generated by: | Mediroza CMS 1.4.2 backup module|
