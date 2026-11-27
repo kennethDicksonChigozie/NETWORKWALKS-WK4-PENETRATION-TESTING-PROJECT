@@ -27,7 +27,7 @@
   <img src="https://img.shields.io/badge/Networkwalks%20Tool-Password%20Hacker-238F89?style=flat-square&labelColor=000000" />
   <img src="https://img.shields.io/badge/GitHub-404040?style=flat-square&labelColor=0070C0&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/NetworkWalks-404040?style=flat-square&labelColor=C00000" />
-  <img src="https://img.shields.io/badge/Chigozie%20Kenneth%20Chigozie-%20CCEP-C00000?style=flat-square" />>
+  <img src="https://img.shields.io/badge/Chigozie%20Kenneth%20Chigozie-%20-C00000?style=flat-square" />
 </p>
 
 ---
